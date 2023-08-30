@@ -14,12 +14,15 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        ConfiContra = request.form['password2']
         db = get_db()
         error = None
 
         if not username:
             error = 'Username is required.'
         elif not password:
+            error = 'Password is required.'
+        elif not ConfiContra == password:
             error = 'Password is required.'
 
         if error is None:
