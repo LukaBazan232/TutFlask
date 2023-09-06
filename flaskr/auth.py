@@ -15,21 +15,27 @@ def register():
         username = request.form['username']
         password = request.form['password']
         ConfiContra = request.form['password2']
+        gmail = request.form['gmail']
+        dni = request.form['dni']
         db = get_db()
         error = None
 
         if not username:
-            error = 'Username is required.'
+            error = 'Se requiere Nombre de Usuario.'
         elif not password:
-            error = 'Password is required.'
+            error = 'Se requiere contraseña.'
         elif not ConfiContra == password:
-            error = 'Password is required.'
+            error = 'No coinciden las contraseñas.'
+        elif not gmail:
+            error = 'Se requiere un email'
+        elif not dni:
+            error = 'Se requiere un DNI'    
 
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
+                    "INSERT INTO user (username, password, email,DNI) VALUES (?, ?, ?,?)",
+                    (username, generate_password_hash(password), gmail, dni),
                 )
                 db.commit()
             except db.IntegrityError:
